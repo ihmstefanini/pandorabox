@@ -22,9 +22,16 @@ Claro que não reinventamos a roda. Entretanto, tornamos esse processo mais demo
 
 Tal análise preliminar, utilizando o Pandora Box, permite que o usuário tenha um mínimo de informação necessária a respeito do potencial preditivo do problema, facilitando a tomada de decisão sobre seguir ou não com o projeto de dados. 
 
-Pandora também disponibiliza para o usuário um dataset sincronizado e pronta para ser explorado de forma mais consistente e sistemática.
+Pandora também disponibiliza para o usuário um dataset sincronizado e pronto para ser explorado de forma mais consistente e sistemática.
 
-![IHM Pandora01-demo](/images/Pandora-Gif01_a.gif)
+
+**Navegando pela Pandora**
+
+![IHM Pandora01-demo01](/images/Pandora-Gif01_a.gif)
+
+
+**
+![IHM Pandora01-demo02](/images/Pandora-Gif02.gif)
 
 ### Instalação
 
