@@ -1,37 +1,74 @@
-## Welcome to GitHub Pages
+## Bem vindo ao IHM Pandora Box
 
-You can use the [editor on GitHub](https://github.com/ihmstefanini/pandorabox/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+O Pandora Box possibilita que analista e cientista de dados descubram o potencial preditivo de um processo industrial em minutos.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+O Pandora faz análises rápidas de viabilidade dos problemas que deseja modelar preditivamente na indústria (predição de qualidade, sensores virtuais, etc).  
 
-### Markdown
+![IHM Pandora01](/images/IHM%20Pandora01.png)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+O Pandora pode ser usado para analisar correlações entre variáveis de processo e qualidade (correlação linear e não linear), fazer teste de hipóteses (verificar causalidade), calcular o tempo de atraso, sincronizar as variáveis no tempo e fornecer informações sobre o potencial preditivo do problema.
 
-```markdown
-Syntax highlighted code block
+### Por quê o Pandora?
 
-# Header 1
-## Header 2
-### Header 3
+Sabe aqueles momentos em que você precisa fazer uma rápida análise de viabildiade (potencial preditivo) de um problema e não tem tempo para fazer todo aquela códificação em python ou não tem ninguém disponível pra te ajudar?
 
-- Bulleted
-- List
+Se você já esteve nessa situação, então o Pandora é o aplicativo perfeito para te salvar nesses momentos!
 
-1. Numbered
-2. List
+### Entendendo o Pandora
 
-**Bold** and _Italic_ and `Code` text
+Analisar se uma variável de qualidade de um processo industrial pode ser modelada preditivamente é uma tarefa complexa e que exige avaliar uma séria de informações. O Pandora facilita esse processo, fazendo todas as etapas necessárias para isso de maneira mais automática e rápida.
 
-[Link](url) and ![Image](src)
+Claro que não reinventamos a roda. Entretanto, tornamos esse processo mais democrático e acessível para os analistas, engenheiros e tomadores de decisão na indústria, permitindo que uma análise mínima possa ser feita sobre os dados que se deseja explorar/modelar.
+
+Tal análise preliminar, utilizando o Pandora Box, permite que o usuário tenha um mínimo de informação necessária a respeito do potencial preditivo do problema, facilitando a tomada de decisão sobre seguir ou não com o projeto de dados. 
+
+Pandora também disponibiliza para o usuário um dataset sincronizado e pronta para ser explorado de forma mais consistente e sistemática.
+### Instalação
+
+1. Clone o projeto e navegue até a pasta project
+```
+git clone https://gitlab.com/i9ihm/ii/ds-exp/exp-ds-produtos-pandora.git
+cd exp-ds-produtos-pandora
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+2. Rode seu ambiente virtual (nesse examplo iremos utilizar o virtualenv)
+```
+python -m venv myenv
+```
+  Linux
+```
+source myenv/bin/activate
+```
+  Windows
+```
+. myenv/Scripts/activate
+```
 
-### Jekyll Themes
+3. Instale as dependencias
+```
+pip install -r requirements.txt
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ihmstefanini/pandorabox/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+4. Rode a aplicação no terminal de comando
+```
+streamlit run pandora_app.py
+```
 
-### Support or Contact
+### Utilizando o Pandora
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+- Assista aos tutoriais
+- Provisione o Pandora em produção com o Pandora Box Cloud
+
+### Junte-se a nossa comunidade de analistas que utilizam o Pandora
+
+- Entre no chat do telegram
+
+### Reportando bugs e contribuindo com o código
+
+Quer reportar um bug ou solicitar uma feature? Fale com a gente no Slack ou abra um issue.
+
+Quer ajudar a construir o Pandora? Em breve!
+
+### Suporte ou Contato
+
+Mande um email pra gente no inteligenciaindustrial@ihm.com.br.
