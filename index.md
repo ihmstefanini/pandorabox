@@ -30,7 +30,7 @@ Pandora também disponibiliza para o usuário um dataset sincronizado e pronto p
 ![IHM Pandora01-demo01](/images/Pandora-Gif01_a.gif)
 
 
-**
+**Preparando os dados a serem explorados**
 ![IHM Pandora01-demo02](/images/Pandora-Gif02.gif)
 
 ### Instalação
