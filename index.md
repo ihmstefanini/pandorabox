@@ -25,12 +25,14 @@ Tal análise preliminar, utilizando o Pandora Box, permite que o usuário tenha 
 Pandora também disponibiliza para o usuário um dataset sincronizado e pronto para ser explorado de forma mais consistente e sistemática.
 
 
-**Navegando pela Pandora**
-
+**Carregando os dados no Pandora**
 ![IHM Pandora01-demo01](/images/Pandora-Gif01_a.gif)
 
 
-**Preparando os dados a serem explorados**
+**Visualizando os dados e suas características básicas**
+![IHM Pandora01-demo02](/images/Pandora-Gif02.gif)
+
+**Visualizando os dados e suas características básicas**
 ![IHM Pandora01-demo02](/images/Pandora-Gif02.gif)
 
 ### Instalação
