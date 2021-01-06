@@ -24,7 +24,7 @@ Tal análise preliminar, utilizando o Pandora Box, permite que o usuário tenha 
 
 Pandora também disponibiliza para o usuário um dataset sincronizado e pronta para ser explorado de forma mais consistente e sistemática.
 
-
+![IHM Pandora01-demo](/images/Pandora-Gif01_a.gif)
 
 ### Instalação
 
