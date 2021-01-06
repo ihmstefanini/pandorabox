@@ -31,7 +31,7 @@ Pandora também disponibiliza para o usuário um dataset sincronizado e pronto p
 **Visualizando os dados e suas características básicas**
 ![IHM Pandora01-demo02](/images/Pandora-Gif02.gif)
 
-**Visualizando os dados e suas características básicas**
+**Visualizando e interpretando as correlações**
 ![IHM Pandora01-demo02](/images/Pandora-Gif03.gif)
 
 ### Instalação
