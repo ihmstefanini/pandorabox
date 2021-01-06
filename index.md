@@ -1,5 +1,4 @@
-## Bem vindo ao IHM Pandora Box :wave:
-
+## Bem vindo ao IHM Pandora Box
 O Pandora Box possibilita que analista e cientista de dados descubram o potencial preditivo de um processo industrial em minutos.
 
 O Pandora faz análises rápidas de viabilidade dos problemas que deseja modelar preditivamente na indústria (predição de qualidade, sensores virtuais, etc).  
