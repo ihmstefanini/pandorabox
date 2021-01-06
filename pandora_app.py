@@ -31,14 +31,9 @@ c = conn.cursor()
 
 PAGES = {
     "Home": home,
-    "Data Preparation": dataPreparation,
-    "Data Validation": dataValidation, 
+    "Data Preparation": dataPreparation, 
     "Data Correlation": dataUnderstanding,
     "Data Syncronization": dataSync,
-    "Data Modeling": dataModeling,
-  
-    #"Vision": src.pages.vision,
-    #"About": about,
 }
 
 def main():
