@@ -38,8 +38,8 @@ Pandora também disponibiliza para o usuário um dataset sincronizado e pronto p
 
 1. Clone o projeto e navegue até a pasta project
 ```
-git clone https://gitlab.com/i9ihm/ii/ds-exp/exp-ds-produtos-pandora.git
-cd exp-ds-produtos-pandora
+git clone https://github.com/ihmstefanini/pandorabox.git
+cd pandorabox
 ```
 
 2. Rode seu ambiente virtual (nesse examplo iremos utilizar o virtualenv)
