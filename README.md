@@ -76,15 +76,13 @@ streamlit run pandora_app.py
 ![IHM Pandora01-demo03](/images/Pandora-Gif03.gif)
 
 
-- Provisione o Pandora em produção com o **Pandora Box Cloud (em breve)**
-
 ### Junte-se a nossa comunidade de analistas que utilizam o Pandora
 
 - Entre no chat do [Teams](https://teams.microsoft.com/l/team/19%3aac1d8e5b18d74945a252fae738c6c0e5%40thread.tacv2/conversations?groupId=36d4af41-3c0a-41ad-9e71-8bcb8bdc4c7d&tenantId=d8bde65a-3ded-4346-9518-670204e6e184)
 
 ### Reportando bugs e contribuindo com o código
 
-Quer reportar um bug ou solicitar uma feature? Fale com a gente no teans ou abra um issue.
+Quer reportar um bug ou solicitar uma feature? Fale com a gente no [Teams]((https://teams.microsoft.com/l/team/19%3aac1d8e5b18d74945a252fae738c6c0e5%40thread.tacv2/conversations?groupId=36d4af41-3c0a-41ad-9e71-8bcb8bdc4c7d&tenantId=d8bde65a-3ded-4346-9518-670204e6e184)) ou abra um issue.
 
 Quer ajudar a construir o Pandora? Em breve!
 
@@ -92,11 +90,15 @@ Quer ajudar a construir o Pandora? Em breve!
 
 Mande um email pra gente no inteligenciaindustrial@ihm.com.br.
 
+### Pandorabox for teams e provisionado em cloud
+
+Quer compartilhar suas descobertas, exportar os datasets e avaliar o potencial preditivo de um problema em larga escala, entre na [**lista de espera do Pandorabox Cloud**](https://airtable.com/shrXwO3hOV5KK9MGH)
+
 ### Referências 
 
 Seguem aqui algumas principais referências que nos inspiraram e tornaram esse lindo projeto possível:
 
-1. [Streamlit.io](https://streamlit.io
+1. [Streamlit.io](https://streamlit.io)
 2. [Post sobre o uso exagerado da correlação e a possibilidade de se utilizar outras métricas interessantes para avaliar o potencial preditivo de um problema](https://www.allendowney.com/blog/2020/10/13/whatever-the-question-was-correlation-is-not-the-answer/)
 3. [Teste de causalidade de Granger](https://pt.wikipedia.org/wiki/Causalidade_de_Granger)
 4. [Méto de análise de correlação não linear - MIC](https://www.researchgate.net/publication/51884204_Detecting_Novel_Associations_in_Large_Data_Sets)
