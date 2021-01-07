@@ -120,9 +120,6 @@ def calcCorr(df, tags, target):
 
 def write(state):
 
-    # Início da página Data Preparation
-    st.title('Carregando e preparando os dados!')
-
     if type(state.dfRawRange) == type(None):
         st.warning("Realize a importação do arquivo CSV contendo os dados em **'Data Preparation'**.")
         
@@ -132,15 +129,15 @@ def write(state):
         
     else:
 
-        st.markdown("Pronto! Dados carregados com sucesso!")        
+        #st.markdown("Pronto! Dados carregados com sucesso!")        
         st.sidebar.title("Data Syncronization")
         
         # ===========================================
         # Body
         # ===========================================
         
-        st.title('Obtendo os dados sincronizados')
-        st.markdown('A última etapa para finalmente obter os dados **sincronizados** é utilizar o cálculo de correlação para encontrar a correta **defasagem (lag)** entre a variável de processo e de qualidade. Bora lá então!')
+        st.title('Obtendo os datasets sincronizados')
+        st.markdown('A última etapa para finalmente obter os dados **sincronizados** é utilizar o cálculo de correlação para encontrar a correta **defasagem (lag)** entre a variável de processo e de qualidade.')
         st.subheader("")
 
         # ===========================================

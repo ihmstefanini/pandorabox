@@ -31,10 +31,8 @@ def getDataFromCSV(file) -> pd.DataFrame:
     df = df.apply(pd.to_numeric)
     return df
 
-@st.cache(allow_output_mutation=True, suppress_st_warning=True)
-def calcMic(df):
-    
-    mine = MINE(alpha=0.6, c=15, est="mic_e")
+#@st.cache(allow_output_mutation=True)
+def calcMic(df, mine):
     
     colunas = df.columns.values.tolist()
 
@@ -42,24 +40,23 @@ def calcMic(df):
     dfMic = pd.DataFrame(data=zeros, index=colunas, columns=colunas)
 
     for tagRemoved in colunas[:]:
-        
-        colunas.remove(tagRemoved)       
-        
+        colunas.remove(tagRemoved)
         for tag in colunas:
-            
             mine.compute_score(df[tag], df[tagRemoved]) 
-            dfMic.at[tag, tagRemoved] = mine.mic()
-
+            calcMic = mine.mic()
+            dfMic.at[tag, tagRemoved] = calcMic 
+    
     return dfMic
 
-def heatmapMIC(df):  
+#@st.cache(allow_output_mutation=True)
+def heatmapMIC(df, mine):  
 
-    corrMic = calcMic(df)
+    corrMic = calcMic(df, mine)
     maskCorr = np.triu(np.ones_like(corrMic, dtype=np.bool))                   
 
     fig, heatmap = plt.subplots()                     
-    heatmap = sns.heatmap(np.round(corrMic,2), vmin=0, vmax=1, mask=maskCorr, annot=True, cmap="Reds")
-    heatmap.set_title("Correlação pelo método MIC", fontdict={'fontsize':18}, pad=12)
+    heatmap = sns.heatmap(corrMic, vmin=0, vmax=1, mask=maskCorr, annot=True, cmap="Reds")
+    heatmap.set_title("Correlação de MIC", fontdict={'fontsize':18}, pad=12)
     
     return fig
 
@@ -70,7 +67,7 @@ def heatmapPPS(df):
     
     fig, heatmap = plt.subplots() 
     heatmap = sns.heatmap(np.round(matrix_df, 2), vmin=0, vmax=1, cmap="Blues", annot=True)
-    heatmap.set_title("Estimativa do 'Potencial preditivo' do problema", fontdict={'fontsize':18}, pad=12)
+    heatmap.set_title("Estimativa do 'Potencial preditivo' do problema", fontdict={'fontsize':12}, pad=12)
     
     return fig
     
@@ -105,7 +102,7 @@ def plotComparacaoCorrelacao(df, tag, target):
     
 def write(state):
     
-    st.title('Obtendo os dados correlacionados')
+    st.title('Avaliando as correlações e o potencial preditivo')
     st.markdown('Após prepararmos os dados, vamos agora analisar os **cálculos de correlação** (etapa anterior a de sincronização).')        
 
     if type(state.dfRawRange) == type(None):
@@ -120,7 +117,7 @@ def write(state):
     else:
         
         #st.title("Data Correlation")
-        st.markdown('Agora siga os **passos na aba lateral à esquerda** ')
+        st.markdown('Verifique os **passos 1 e 2** na aba lateral à esquerda ')
         #st.text("Dados carregados com sucesso!")
         st.sidebar.title("Data Correlation")
         
@@ -144,9 +141,9 @@ def write(state):
         state.methodCorr = expanderMethodCorr.selectbox(label='Método de cáclulo da Correlação', options=optionCorr, index=optionCorr.index(state.methodCorr) if state.methodCorr else 0)                       
         
         if len(state.fltTags) > 0:
-            st.markdown('3. Pronto! Agora selecione as opções abaixo **(uma por vez)** para visualizar:')
+            st.markdown('Selecione as opções abaixo **(uma por vez)** para avaliar os dados:')
 
-            showRawTimeSeries = st.checkbox(label='Séries temporais das variáveis', value=False, key='showRawTimeSeries')
+            showRawTimeSeries = st.checkbox(label='Visualizar as séries temporais das variáveis', value=False, key='showRawTimeSeries')
             if (showRawTimeSeries):
                 fltSelectedVar = st.multiselect(label='Escolha a variável de processo que deseja visualizar:', options=state.fltTags, key='fltSelectedVar')
                 if (len(fltSelectedVar) > 0):                       
@@ -157,7 +154,7 @@ def write(state):
                  st.warning("Selecione no mínimo duas variaveis no passo 1 do **'Data Preparation'** para análise.")
                
             # Realiza a correlação do dataframe filtrado pelas variaveis selecionadas e intervalo de tempo
-            showRawCorr = st.checkbox(label='Visualizar correlações (métodos lineares)', value=False, key='showRawCorr')
+            showRawCorr = st.checkbox(label='Visualizar as correlações lineares', value=False, key='showRawCorr')
             if (showRawCorr) & (len(state.fltTags) >= 2):
                 
                 #########################
@@ -169,14 +166,27 @@ def write(state):
                 
                 figCorr, heatmapCorr = plt.subplots() 
                 heatmapCorr = sns.heatmap(np.round(state.dfRawRange.corr(method=state.methodCorr), 2), vmin=-1, vmax=1, mask=maskCorr, annot=True, cmap="coolwarm")
-                heatmapCorr.set_title("Correlação de {}".format(state.methodCorr), fontdict={'fontsize':18}, pad=12)
+                heatmapCorr.set_title("Correlação de {}".format(state.methodCorr), fontdict={'fontsize':12}, pad=12)
                 st.pyplot(figCorr)
-                
+
+                st.text(" ")
+                st.text("Um breve guia sobre análise de correlação:")
                 st.info(
                     """
                     Análise de correlação remete ao quanto que uma variável está correlacionada com outra linearmente e o sentido da linearidade.
-                    \nValores variam entre -1 e 1 (valores máximos), sendo que 1 significa que quando uma variável aumenta a outra também e -1 o inverso.
+                    \nValores variam entre -1 e 1 (valores mínimo e máximo), sendo que 1 significa que quando uma variável aumenta a outra também e -1 o inverso.
                     \nQuanto mais correlacionada as variáveis estão (seja mais próximo de -1 ou de 1), maiores são as chances de se obter um modelo de machine learning que capture a relação linear entre ambas!
+                    """
+                )
+                st.subheader('')
+
+                st.text(" ")
+                st.text("Cuidados com a análise de correlação:")
+                st.info(
+                    """
+                    Apesar de ser muito útil, não é recomendado utilizar somente os métodos de correlação para julgar o potencial preditivo de um problema.
+                    \nÉ recomendável avaliar outros critérios para se ter uma visão mais holística do potencial preditivo.
+                    \n**Selecione** as demais opções para obter mais informação do potencial preditivo do problema que está explorando
                     """
                 )
                 st.subheader('')
@@ -188,12 +198,12 @@ def write(state):
                 #if False:
                 if (state.methodCorr == "pearson"):
                     
-                    showLinearCorr = st.checkbox(label='Visualizar análises complementares à de Pearson', value=False, key='showLinearCorr')
+                    showLinearCorr = st.checkbox(label='Visualizar análises complementares à de correlação linear de pearson', value=False, key='showLinearCorr')
                     if (showLinearCorr == True):
-                        st.title("Análises complementares de Rˆ2")
+                        #st.title("Análises complementares de Rˆ2")
                         
-                        st.subheader("Regressão Linear")                    
-                        varAnalise = st.selectbox(label='Variável para a análise linear:', options=state.fltTags, key='varAnalise')                    
+                                           
+                        varAnalise = st.selectbox(label='Primeiro, selecione a variável para realizarmos as análises complementares:', options=state.fltTags, key='varAnalise')                    
 
                         ########################
                         ### Regressão Linear ###
@@ -215,17 +225,18 @@ def write(state):
                             ### Resíduos ###
                             ################
                             
-                            st.title("Residuals")
+                            #st.markdown("**Insights:**")
                             
                             resid = state.dfRawRange[state.fltTarget] - resultRegLinear
                             a = np.corrcoef(state.dfRawRange[varAnalise], state.dfRawRange[state.fltTarget])
                             rho_actual = a[0, 1]
                             R2 = 1 - resid.var()/state.dfRawRange[state.fltTarget].var()
                             
-                            st.info("Resíduos são os erros de cada previsão e são utilizados para calcular o coeficiente de determinação, $R^2$.\
-                                    \n\n$R^2$ = {:.2f}".format(R2))
+                            st.subheader("Análise complementar 1 - Resíduos (por meio de regressão linear)") 
+                            st.info("Resíduos são os erros de cada previsão e são utilizados para calcular o famoso **coeficiente de determinação**, mais conhecido como **$R^2$**.\
+                                    \n\n$R^2$ = {:.2f}, conforme a seleção das variáveis (experimente outras variáveis para observar outros resultados)".format(R2))
 
-                            st.info("$R^2$ mede a parte da variância na variável dependente **{}** que é *'explicada'* pelo preditor **{}**.\
+                            st.info("O $R^2$ mede a parte da variância na variável dependente **{}** que é *'explicada'* pelo preditor **{}**.\
                                     \n\nOu seja, se usarmos **{}** para predizer **{}**, a variância dos erros será **{:.2f}%** menor do que a variância de **{}**.\
                                     \n\nIsso soa menos impressionante do que uma correlação de **{:.2f}**, pois existe uma relação entre a correlação e o coeficiente de determinação:\
                                     \n\n$R^2 = \\rho^2$\
@@ -237,140 +248,220 @@ def write(state):
                                     \n\n**{}**: {:.2f}\
                                     \n\n**{}**: {:.2f}".format("R2", R2,"$\\rho$ actual", rho_actual))
                             '''
-                            st.info("Se você tiver a opção de relatar $R^2$ ou correlação, é sugerido que informe $R^2$ porque é mais significativo (redução percentual na variância) e menos falsamente impressionante.\
-                                    \n\nNo entanto, $R^2$ também é problemático, porque reduzir a variância geralmente não é o que nós preocupa.\
-                                    \n\nSe o objetivo é quantificar a qualidade de uma previsão, é melhor usar uma métrica de erro que signifique algo no contexto do problema.")
+                            st.info("Se você tiver a opção de relatar $R^2$ ou correlação, é sugerido que informe $R^2$ porque é mais significativo (redução percentual na variância) e menos **falsamente impressionante!**.\
+                                    \n\nNo entanto, **$R^2$ também é problemático**, porque reduzir a variância geralmente não é o que nós preocupa.\
+                                    \n\nSe o objetivo é **quantificar a qualidade de uma previsão**, é melhor usar uma **métrica de erro** que signifique algo no contexto do problema.")
                             
                             ###########################
                             ### Erro médio absoluto ###
                             ###########################
                             
-                            st.title("Erro Médio Absoluto")
+                            st.subheader("Análise complementar 2 - Erro Médio Absoluto")
                             
                             MAE_after = np.abs(resid).std()
                             deviation = state.dfRawRange[state.fltTarget] - state.dfRawRange[state.fltTarget].mean()
                             
                             MAE_before = np.abs(deviation).std()
                             improvementMAE = 1 - MAE_after / MAE_before
+                            improvementMAE_percent = (1 - MAE_after / MAE_before)*100
                             
-                            st.info("Uma opção é o **erro médio absoluto**, que é exatamente o que diz: a média dos valores absolutos dos resíduos.\
-                                    \n\n**MAE_after:** {:.2f}".format(MAE_after))
+                            st.info("Uma segunda opção é avaliar também o **erro médio absoluto** (ou MAE), que é exatamente o que diz: a média dos valores absolutos dos resíduos.\
+                                    \n\n**MAE dos resíduos após a predição por regressão linear:** {:.2f}".format(MAE_after))
 
-                            st.info("Se você utilizar o **{}** para predizer o **{}**, deverá ter uma perda de cerca de *5* pontos em média. \
-                                    \n\nUma maneira de colocar isso em contexto é compará-lo ao **MAE** se não soubermos **{}**.\
-                                    \n\nNesse caso, a melhor estratégia é adivinhar a média todas as vezes. \
-                                    \n\n**MAE_before:** {:.2f}"\
-                                    .format(varAnalise, state.fltTarget, varAnalise, MAE_before))
-                        
+                            st.info("Se você utilizar a variável **{}** para predizer a variável alvo **{}**, deverá ter um erro em unidades de engenharia de aproximadamente {:.2f} em média. \
+                                    \n\nUma maneira de colocar isso em contexto é compará-lo ao **MAE** se não soubermos a variável **{}**.\
+                                    \n\nNesse caso, a melhor estratégia é 'adivinhar' a média da variável alvo todas as vezes. \
+                                    \n\n**MAE da própria variável alvo (sem fazer regressão linear):** {:.2f}"\
+                                    .format(varAnalise, state.fltTarget, MAE_after, varAnalise, MAE_before))
+                            #corrigir ou retirar essa linha, dando um exemplo pro caso corrente... usando dados das variáveis em estudo    
                             st.info("Se você sempre acertar 100, deve esperar um erro de cerca de 8,5 pontos em média. \
                                     \n\nPodemos usar esses resultados para calcular a melhoria percentual no MAE, com e sem pontuação SAT: \
-                                    \n\n**Melhoria MAE:** {:.2f}".format(improvementMAE))
+                                    \n\n**Melhoria do MAE:** {:.2f}\
+                                    \n\nPortanto, podemos dizer que utilizar a variável **{} diminui o MAE em {:.1f}%**.\
+                                    \n\nIsso é uma melhoria, porém menor do que R2 = {:.2f} e menor do que ρ = {:.2f}.".format(improvementMAE, varAnalise, improvementMAE_percent, R2, rho_actual))
 
-                            st.info("Portanto, podemos dizer que conhecer as pontuações do SAT diminui o MAE em 44%.\
-                                    \n\nIsso certamente é uma melhoria, mas observe que parece menos impressionante do que R2 = 0,66 e muito menos impressionante do que ρ = 0,82.")
+                            #st.info("Portanto, podemos dizer que utilizar a variável **{} diminui o MAE em {:.1f}%**.\
+                            #        \n\nIsso é uma melhoria, porém menor do que R2 = {:.2f} e menor do que ρ = {:.2f}."\
+                            #        .format(varAnalise, improvementMAE_percent, R2, rho_actual))
 
                             ############
                             ### RMSE ###
                             ############
 
-                            st.title("RMSE")
+                            st.subheader("Análise complementar 3 - RMSE")
                             
                             RMSE_after = resid.std()
-                            RMSE_before = state.dfRawRange[varAnalise].std()
+                            RMSE_before = state.dfRawRange[state.fltTarget].std() #brenão, estava varAnalise, mas aqui é o target!
                             improvementRMSE = 1 - RMSE_after / RMSE_before
+                            improvementRMSE_percent = (1 - RMSE_after / RMSE_before)*100
+                            st.info("Uma terceira opção é usar a raiz quadrada do erro quadrático (RMSE - root mean squared error), que nada mais é que o desvio padrão dos resíduos:\
+                                    \n\n**RMSE dos resíduos após a predição por regressão linear:** {:.2f}".format(RMSE_after))
+
+                            st.info("Pode-se comparar esse resultado em relação ao valor do RMSE sem utilizar a regressão linear (usando somente a própria variável alvo para prever ela mesma), que é o desvio padrão da variável alvo **{}**:\
+                                    \n\n**RMSE da própria variável alvo (sem fazer regressão):** {:.2f}".format(state.fltTarget, RMSE_before))
+
+                            st.info("E agora podemos calcular a melhoria usando o RMSE:\
+                                    \n\n**Melhoria usando RMSE** {:.3f}\
+                                    \n\nEntão, se usarmos a variável **{}**, podemos **reduzir o RMSE em {:.1f}%**.".format(improvementRMSE, varAnalise, improvementRMSE_percent))
+
                             
-                            st.info("Another option is RMSE (root mean squared error) which is the standard deviation of the residuals:\
-                                    \n\n**RMSE_after:** {:.2f}".format(RMSE_after))
-
-                            st.info("We can compare that to RMSE without SAT scores, which is the standard deviation of IQ:\
-                                    \n\n**RMSE_before:** {:.2f}".format(RMSE_before))
-
-                            st.info("And here's the improvement:\
-                                    \n\n**Improvement RMSE** {:.2f}".format(improvementRMSE))
-
-                            st.info("If you know someone's SAT score, you can decrease your RMSE by 42%.\
-                                    \n\nThere is no compelling reason to prefer RMSE over MAE, but it has practical one advantage: we don't need the data to compute the RMSE.  We can derive it from the variance of IQ and $R^2$:\
-                                    \n\n$R^2 = 1 - Var(resid) ~/~ Var(iq)$\
-                                    \n\n$Var(resid) = (1 - R^2)~Var(iq)$\
-                                    \n\n$Std(resid)$ = $\sqrt((1 - R^2)~Var(iq))$\
-                                    \n\n**STD(resid)**: {:.2f}\
-                                    \n\n**RMSE_after**: {:.2f}".format(np.sqrt((1-R2) * state.dfRawRange[state.fltTarget].var()), RMSE_after) )
-                                    #"(1 - R^2) Var(iq)"
+                            #Texto reduzido nesse último st.info para facilitar a intepretação do user
+                            #\n\nThere is no compelling reason to prefer RMSE over MAE, but it has practical one advantage: we don't need the data to compute the RMSE.  We can derive it from the variance of IQ and $R^2$:\
+                            #        \n\n$R^2 = 1 - Var(resid) ~/~ Var(iq)$\
+                            #        \n\n$Var(resid) = (1 - R^2)~Var(iq)$\
+                            #        \n\n$Std(resid)$ = $\sqrt((1 - R^2)~Var(iq))$\
+                            #        \n\n**STD(resid)**: {:.2f}\
+                            #        \n\n**RMSE_after**: {:.2f}"
+                            #        .format( np.sqrt((1-R2) * state.dfRawRange[state.fltTarget].var()), RMSE_after))
 
                             ########################
                             ### Percentage error ###
                             ########################
                             
-                            st.title("Percentage error")
+                        #     st.subheader("Análise complementar 4 - Erro percentual")
                             
-                            deviation = state.dfRawRange[varAnalise] - state.dfRawRange[varAnalise].mean()
-                            MAPE_before = np.abs(deviation / state.dfRawRange[varAnalise]).mean() * 100
-                            MAPE_after = np.abs(resid / state.dfRawRange[state.fltTarget]).mean() * 100
-                            improvementMAPE = 1 - MAPE_after / MAPE_before
+                        #     deviation = state.dfRawRange[state.fltTarget] - state.dfRawRange[state.fltTarget].mean() # Brenao tinha colocado a varAnalise, corrigido para fltTarget
+                        #     MAPE_before = np.abs(deviation / state.dfRawRange[state.fltTarget]).mean() * 100
+                        #     MAPE_after = np.abs(resid / state.dfRawRange[state.fltTarget]).mean() * 100
+                        #     improvementMAPE = 1 - MAPE_after / MAPE_before
                             
-                            st.info("One other way to express the value of SAT scores for predicting IQ is the mean absolute percentage error (MAPE).\
-                                    \n\nAgain, if we don't know SAT scores, the best strategy is to guess the mean. In that case the MAPE is:\
-                                    \n\n**MAPE_before**: {}".format(MAPE_before))
+                        #     st.info("A quarta forma de expressar o potencial de se usar a variável **{}** para predizer o target {} é avaliar o erro absoluto percentual (MAPE).\
+                        #             \n\nNovamente, se não temos a variável {}, a melhor estratégia é adivinhar a média. Nesse caso, o MAPE é:\
+                        #             \n\n**MAPE da própria variável alvo (sem regressão)**: {:.2f}".format(varAnalise, state.fltTarget, varAnalise, MAPE_before))
                             
-                            st.info("If we always guess the mean, we expect to be off by 12%, on average.\
-                                    \n\nIf we use SAT scores to make better guesses, the MAPE is lower:\
-                                    \n\n**MAPE_after**: {}".format(MAPE_after)) 
+                        #     st.info("Se sempre adivinharmos a média, espera-se um erro de aproximadamente {:.2f}, na média.\
+                        #             \n\nSe usarmos a variável {} para fazermos melhores estimativas, o  MAPE é menor:\
+                        #             \n\n**MAPE dos resíduos**: {:.2f}".format(MAPE_before, varAnalise, MAPE_after)) 
                             
-                            st.info("So we expect to be off by 6.6% on average.\
-                                    \n\nAnd we can quantify the improvement like this:\
-                                    \n\n**improvementMAPE**: {}".format(improvementMAPE))
+                        #     st.info("So we expect to be off by {:.2f}% on average.\
+                        #             \n\nAnd we can quantify the improvement like this:\
+                        #             \n\n**improvementMAPE**: {:.2f}".format(MAPE_after-MAPE_before,improvementMAPE))
                             
-                            st.info("Using SAT scores to predict IQ decreases the mean absolute percentage error by 42%.\
-                                    \n\nI included MAPE in this discussion because it is a good choice in some contexts, but this is probably not one of them.\
-                                    \n\nUsing MAPE implies that an error of 1 IQ point is more important for someone with low IQ and less important for someone with high IQ. In this context, it's not clear whether that's true.")
+                        #     st.info("Usando **{}** para predizer {} reduz o erro médio absoluto percentual em {:.1f}.\
+                        #             \n\nI included MAPE in this discussion because it is a good choice in some contexts, but this is probably not one of them.\
+                        #             \n\nUsing MAPE implies that an error of 1 IQ point is more important for someone with low IQ and less important for someone with high IQ. In this context, it's not clear whether that's true.")
                             
                             ###############            
                             ### Summary ###           
                             ###############                                
                                     
-                            st.title("Summary")                     
+                            st.subheader("Resumo das análises")                     
                             
                             st.info(
-                                "Correlation is a problematic statistic because it sounds more impressive than it is.\
-                                \n\nCoefficient of determination, $R^2$, is better because it has a more natural interpretation: percentage reduction in variance.  But reducing variance it usually not what we care about.\
-                                \n\nI think it is better to choose a measurement of error that is meaningful in context, possibly one of:\
+                                "Em suma, correlação é uma problemática estatística pois pode soar mais impressionante do que realmente é.\
+                                \n\nCoeficiente de determinação, $R^2$, seria uma melhor alternativa por trazer uma interpretação mais natural: percentual de redução na variância. Porém, redução de variância não o que usualmente queremos com uma predição.\
+                                \n\nPortanto, avalie se no seu caso não seria melhor escolher uma medida do erro que tem algum significado no contexto do seu problema, possivelmente uma das métricas:\
                                 \n* MAE: Mean absolute error\
                                 \n* RMSE: Root mean squared error\
-                                \n* MAPE: Mean absolute percentage error\
-                                \n\nWhich one of these is most meaningful depends on the cost function.  Does the cost of being wrong depend on the absolute error, squared error, or percentage error?  If so, that should guide your choice.\
-                                \n\nOne advantage of RMSE is that we don't need the data to compute it; we only need the variance of the dependent variable and either $\\rho$ or $R^2$.\
-                                \n\nIn this example, the correlation is **{:.2f}**, which sounds much more impressive than it is.\
-                                \n\n$R^2$ is **{:.2f}**, which means we can reduce variance by **{:.2f}**%.  But that also sounds more impressive than it is.\
-                                \n\nUsing {} to predict {}, we can reduce:\
-                                \n* $R^2$ by {:.2f}%\
-                                \n* MAE by {:.2f}%\
-                                \n* RMSE by {:.2f}%\
-                                \n* MAPE by {:.2f}%.\
-                                \n\nReporting any of these is more meaningful than reporting correlation or $R^2$."\
-                                .format(rho_actual,R2, R2*100, varAnalise, state.fltTarget, R2*100, improvementMAE*100,improvementRMSE*100,improvementMAPE*100 )
+                                \n\nQual desses é mais signigicativo, vai depender da função de custo a ser otimizada para o seu problema.  O custo de estar errado depende do erro absoluto ou do erro quadrático?  Se sim, isso deveria guiar a sua escolha.\
+                                \n\nNesse exemplo, a correlação é **{:.2f}**, que parece ser mais impressionante do que é.\
+                                \n\n$R^2$ é **{:.2f}**, o que significa que podemos reduzir a variância por **{:.2f}**%. Mas também parece mais impressionante do que realmente é.\
+                                \n\nUtilizando {} para predizer {}, podemos reduzir:\
+                                \n* $R^2$ em {:.2f}%\
+                                \n* MAE em {:.2f}%\
+                                \n* RMSE em {:.2f}%\
+                                \n\nReportar qualquer uma dessas métricas de erro é mais significativo que reportar uma correlação ou um $R^2$ de tanto."\
+                                .format(rho_actual,R2, R2*100, varAnalise, state.fltTarget, R2*100, improvementMAE*100,improvementRMSE*100)
                             )
                         
                         else:
                             st.warning("A variável em análise possui valores **NaN**, realize a limpeza em **Data Preparation**.")
-                            
+
+                        ###########
+                         ### PPS ###
+                        ###########
+                        
+                        #st.subheader("Poder Preditivo - PPS")
+                        #figPPS = heatmapPPS(state.dfRawRange)
+                        #st.pyplot(figPPS, fontdict={'fontsize':12}, pad=12) 
+
+
+             
+                
                 ###########
                 ### MIC ###
                 ###########
-
-                st.subheader("Correlação Não-Linear")
                 
-                showCalcMIC = st.checkbox(label='Cálculo da correlação MIC', value=False, key='showCalcMIC')
-                st.warning("O cálculo do MIC demanda de grande esforço computacional, portanto a execução do cálculo pode levar algum tempo para a finalização.")
+                #mine = MINE(alpha=0.6, c=15, est="mic_approx")
                 
-                if showCalcMIC == True:
-                    
-                    figMicCorr = heatmapMIC(state.dfRawRange)
-                    st.pyplot(figMicCorr)
+                #st.subheader("Correlação Não-Linear")
+                #figMicCorr = heatmapMIC(state.dfRawRange, mine)
+                #st.pyplot(figMicCorr)
                 
                 ###########
                 ### PPS ###
                 ###########
                 
-                st.subheader("Poder Preditivo - PPS")
-                figPPS = heatmapPPS(state.dfRawRange)
-                st.pyplot(figPPS)
+                #st.subheader("Poder Preditivo - PPS")
+                #figPPS = heatmapPPS(state.dfRawRange)
+                #st.pyplot(figPPS)
+            
+
+            showStatisticalSignificance = st.checkbox(label='Visualizar Teste Estatístico de Significância', value=False, key='showStatisticalSignificance')    
+            if (showStatisticalSignificance):
+                fltSelectedVarStatisPreditora = st.multiselect(label='Escolha a(s) variável(s) independente(s):', options=state.fltTags, key='fltSelectedVarStatisPreditora')
+                if (len(fltSelectedVarStatisPreditora) > 0):                       
+                    list_independent_variables = []
+                    for i in range(0,len(fltSelectedVarStatisPreditora)):
+                        list_independent_variables.append(fltSelectedVarStatisPreditora[i])
+                    X2 = sm.add_constant(state.dfRawRange[list_independent_variables])
+                    est = sm.OLS(state.dfRawRange[state.fltTarget], X2)
+                    est2 = est.fit()
+                    p_valor_variavel = []
+                    for i in range(0,len(fltSelectedVarStatisPreditora)):
+                        p_valor_variavel.append(est2.pvalues[i+1])
+                    # Se rejeitar hipotese nula, coeficiente é significativo
+                    for i in range(0,len(fltSelectedVarStatisPreditora)):
+                        if(p_valor_variavel[i]<0.05):
+                            st.markdown("A variável " + str(fltSelectedVarStatisPreditora[i]) + " é estatisticamente significante para a previsão de " + str(state.fltTarget))
+                            st.markdown("Your data favor the hypothesis that there is a non-zero correlation. Changes in the independent variable are associated with changes in the response at the population level. This variable is statistically significant and probably a worthwhile addition to your regression model")
+                        else:
+                            st.markdown("A variável " + str(fltSelectedVarStatisPreditora[i]) + " não é estatisticamente significante para a previsão de " + str(state.fltTarget))
+                            st.markdown("There is insufficient evidence in your sample to conclude that a non-zero correlation exists")
+                        
+            if (showRawCorr) & (len(state.fltTags) < 2):
+                st.warning("Selecione no mínimo duas variaveis no passo 1 do **'Data Preparation'** para análise.")
+
+            #if (showRawCorr) or (showRawTimeSeries):
+            #    if len(fltSelectedVar) > 0:
+            #        st.markdown('4. Muito bem! Chegamos a fim da primeira parte da nossa jornada. Agora selecione a próxima aba, a **Data Syncronization**, para continuarmos nossa jornada!')    
+
+
+        #     showScatterplotCorr = st.checkbox(label='Scatter plot', value=False, key='showScatterplotCorr')
+        #     if (showScatterplotCorr) & (len(state.fltTags) >= 2):
+                                
+        #         mine = MINE(alpha=0.6, c=15, est="mic_approx") 
+                
+        #         fltTags = state.dfRawRange.columns.values.tolist()
+        #         fltTags.remove(state.fltTarget)
+        #         #figScatter, axs = plt.subplots(nrows=len(state.fltTags), ncols=2)                
+                
+        #         for i in range(len(fltTags)):
+        #             st.write("")
+        #             figScatter, axs = plt.subplots(nrows=1, ncols=2, figsize=(10,5))   
+        #             figScatter.suptitle("Comparação entre os métodos de correlação".format(fltTags[i], state.fltTarget), fontsize="large")
+        #             sns.scatterplot(x=state.dfRawRange[fltTags[i]], y=state.dfRawRange[state.fltTarget], data=state.dfRawRange[fltTags[i]], ax=axs[0])
+
+        #             pearson = pearson(state.dfRawRange[fltTags[i]], state.dfRawRange[state.fltTarget])[0]
+        #             spearman =  spearman(state.dfRawRange[fltTags[i]], state.dfRawRange[state.fltTarget]).correlation
+        #             kendall = kendalltau(state.dfRawRange[fltTags[i]], state.dfRawRange[state.fltTarget]).correlation
+                    
+        #             mine.compute_score(state.dfRawRange[fltTags[i]], state.dfRawRange[state.fltTarget]) 
+        #             mic = mine.mic()
+                    
+        #             pps = ppscore.score(state.dfRawRange, fltTags[i], state.fltTarget, sample=5_000, cross_validation=4, random_seed=123, invalid_score=0, catch_errors=True)['ppscore']
+                    
+        #             #calcScatterCorr = [pearson, spearman, kendall]
+        #             #methodScatterCorr = ["pearson", "spearman", "kendall"]
+                    
+        #             calcScatterCorr = [pearson, spearman, kendall, mic, pps]
+        #             methodScatterCorr = ["pearson", "spearman", "kendall", "mic", "pps"]
+
+        #             sns.barplot(x=methodScatterCorr, y=calcScatterCorr, palette="deep", ax=axs[1])
+        #             axs[1].set_ylim(-1,1)
+        #             axs[1].grid(which='major', axis="y")
+            
+        #             st.pyplot(figScatter)
+
+
+            
