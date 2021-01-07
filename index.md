@@ -23,17 +23,6 @@ Tal análise preliminar, utilizando o Pandora Box, permite que o usuário tenha 
 
 Pandora também disponibiliza para o usuário um dataset sincronizado e pronto para ser explorado de forma mais consistente e sistemática.
 
-
-**Carregando os dados no Pandora**
-![IHM Pandora01-demo01](/images/Pandora-Gif01_a.gif)
-
-
-**Visualizando os dados e suas características básicas**
-![IHM Pandora01-demo02](/images/Pandora-Gif02.gif)
-
-**Visualizando e interpretando as correlações**
-![IHM Pandora01-demo02](/images/Pandora-Gif03.gif)
-
 ### Instalação
 
 1. Clone o projeto e navegue até a pasta project
@@ -67,19 +56,34 @@ streamlit run pandora_app.py
 
 ### Utilizando o Pandora
 
-- Assista aos tutoriais
-- Provisione o Pandora em produção com o Pandora Box Cloud
+- Um exemplo prático
+
+**Carregando os dados no Pandora**
+![IHM Pandora01-demo01](/images/Pandora-Gif01_a.gif)
+
+
+**Visualizando os dados e suas características básicas**
+![IHM Pandora01-demo02](/images/Pandora-Gif02.gif)
+
+**Visualizando e interpretando as correlações**
+![IHM Pandora01-demo02](/images/Pandora-Gif03.gif)
+
+
+- Provisione o Pandora em produção com o **Pandora Box Cloud (em breve)**
 
 ### Junte-se a nossa comunidade de analistas que utilizam o Pandora
 
-- Entre no chat do telegram
+- Entre no chat do teams
 
 ### Reportando bugs e contribuindo com o código
 
-Quer reportar um bug ou solicitar uma feature? Fale com a gente no Slack ou abra um issue.
+Quer reportar um bug ou solicitar uma feature? Fale com a gente no teans ou abra um issue.
 
 Quer ajudar a construir o Pandora? Em breve!
 
 ### Suporte ou Contato
 
 Mande um email pra gente no inteligenciaindustrial@ihm.com.br.
+
+### Licença
+Mande um email pra gente no inteligenciaindustrial@ihm.com.brç
