@@ -90,5 +90,15 @@ Quer ajudar a construir o Pandora? Em breve!
 
 Mande um email pra gente no inteligenciaindustrial@ihm.com.br.
 
+### Referências 
+
+Seguem aqui algumas principais referências que nos inspiraram e tornaram esse lindo projeto possível:
+
+1. [Streamlit.io](https://streamlit.io
+2. [Post sobre o uso exagerado da correlação e a possibilidade de se utilizar outras métricas interessantes para avaliar o potencial preditivo de um problema](https://www.allendowney.com/blog/2020/10/13/whatever-the-question-was-correlation-is-not-the-answer/)
+3. [Teste de causalidade de Granger](https://pt.wikipedia.org/wiki/Causalidade_de_Granger)
+4. [Méto de análise de correlação não linear - MIC](Detecting Novel Associations in Data Set.pdf)
+
+
 ### Licença
 Nosso aplicativo é open source sobre os termos de uso da licença GPL 3.0
