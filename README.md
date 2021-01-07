@@ -64,12 +64,15 @@ streamlit run pandora_app.py
 - Um exemplo prático
 
 **Carregando os dados no Pandora**
+
 ![IHM Pandora01-demo01](/images/Pandora-Gif01_a.gif)
 
 **Visualizando os dados e suas características básicas**
+
 ![IHM Pandora01-demo02](/images/Pandora-Gif02.gif)
 
 **Visualizando e interpretando as correlações**
+
 ![IHM Pandora01-demo03](/images/Pandora-Gif03.gif)
 
 
