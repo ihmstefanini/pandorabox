@@ -93,6 +93,8 @@ Mande um email pra gente no inteligenciaindustrial@ihm.com.br.
 ### Pandorabox for teams e provisionado em cloud
 
 Quer compartilhar suas descobertas, exportar os datasets e avaliar o potencial preditivo de um problema em larga escala? 
+
+
 Entre na nossa [**lista de espera do Pandorabox Cloud**](https://airtable.com/shrXwO3hOV5KK9MGH)
 
 ### Referências 
