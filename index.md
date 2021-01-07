@@ -86,7 +86,7 @@ Quer ajudar a construir o Pandora? Em breve!
 
 ### Suporte ou Contato
 
-Mande um email pra gente no inteligenciaindustrial@ihm.com.br.
+Mande um email pra gente no [inteligenciaindustrial@ihm.com.br](inteligenciaindustrial@ihm.com.br).
 
 ### Pandorabox for teams e provisionado em cloud
 
