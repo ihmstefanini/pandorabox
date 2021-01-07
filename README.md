@@ -14,7 +14,7 @@ O Pandora pode ser usado para analisar correlações entre variáveis de process
 
 ### Por quê o Pandora?
 
-Sabe aqueles momentos em que você precisa fazer uma rápida análise de viabildiade (potencial preditivo) de um problema e não tem tempo para fazer todo aquela códificação em python ou não tem ninguém disponível pra te ajudar?
+Sabe aqueles momentos em que você precisa fazer uma rápida análise de viabilidade (potencial preditivo) de um problema e não tem tempo para fazer todo aquela codificação em python ou não tem ninguém disponível pra te ajudar?
 
 Se você já esteve nessa situação, então o Pandora é o aplicativo perfeito para te salvar nesses momentos!
 
