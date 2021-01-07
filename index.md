@@ -1,4 +1,4 @@
-# Bem vindo ao IHM Pandora Box :wave:
+# Bem vindo ao IHM Pandora Box
 
 **A maneira mais rápida de avaliar o potencial preditivo de um problema de dados na indústria**
 
@@ -99,10 +99,10 @@ Entre na nossa [**lista de espera do Pandorabox Cloud**](https://airtable.com/sh
 
 Seguem aqui algumas principais referências que nos inspiraram e tornaram esse lindo projeto possível:
 
-1. [Streamlit.io](https://streamlit.io)
-2. [Post sobre o uso exagerado da correlação e a possibilidade de se utilizar outras métricas interessantes para avaliar o potencial preditivo de um problema](https://www.allendowney.com/blog/2020/10/13/whatever-the-question-was-correlation-is-not-the-answer/)
-3. [Teste de causalidade de Granger](https://pt.wikipedia.org/wiki/Causalidade_de_Granger)
-4. [Méto de análise de correlação não linear - MIC](https://www.researchgate.net/publication/51884204_Detecting_Novel_Associations_in_Large_Data_Sets)
+- [Streamlit.io](https://streamlit.io)
+- [Post sobre o uso exagerado da correlação e a possibilidade de se utilizar outras métricas interessantes para avaliar o potencial preditivo de um problema](https://www.allendowney.com/blog/2020/10/13/whatever-the-question-was-correlation-is-not-the-answer/)
+- [Teste de causalidade de Granger](https://pt.wikipedia.org/wiki/Causalidade_de_Granger)
+- [Méto de análise de correlação não linear - MIC](https://www.researchgate.net/publication/51884204_Detecting_Novel_Associations_in_Large_Data_Sets)
 
 
 ### Licença
