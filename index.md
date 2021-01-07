@@ -73,7 +73,7 @@ streamlit run pandora_app.py
 
 ### Junte-se a nossa comunidade de analistas que utilizam o Pandora
 
-- Entre no chat do teams
+- Entre no chat do [Teams](https://teams.microsoft.com/l/team/19%3aac1d8e5b18d74945a252fae738c6c0e5%40thread.tacv2/conversations?groupId=36d4af41-3c0a-41ad-9e71-8bcb8bdc4c7d&tenantId=d8bde65a-3ded-4346-9518-670204e6e184)
 
 ### Reportando bugs e contribuindo com o código
 
@@ -86,4 +86,4 @@ Quer ajudar a construir o Pandora? Em breve!
 Mande um email pra gente no inteligenciaindustrial@ihm.com.br.
 
 ### Licença
-Mande um email pra gente no inteligenciaindustrial@ihm.com.brç
+Nosso aplicativo é open source sobre os termos de uso da licença GPL 3.0
