@@ -108,8 +108,8 @@ def calcCorr(df, tags, target):
         mine.compute_score(df[tag], df[target]) 
         mic.loc[0, tag] = mine.mic()        
     
-    dfCorr = pd.concat([pearson, spearman, kendall ,mic])
-    dfCorr.index = ["Pearson", "Spearman", "Kendall", "Mic"]
+    dfCorr = pd.concat([pearson, spearman, kendall])
+    dfCorr.index = ["Pearson", "Spearman", "Kendall"]
     dfCorr.drop([target], axis=1, inplace=True)
 
     return dfCorr.transpose()
@@ -170,6 +170,7 @@ def write(state):
                 fltTags.remove(state.fltTarget)
                 
                 btnBestLag = st.button("Calcular BestLag", key="btnBestLag")
+                st.warning("**Nota**: quanto maior a janela de varredura, maior o tempo de execução dos cálculos.")
                 
                 if btnBestLag:
                     
@@ -198,7 +199,7 @@ def write(state):
 
                         dict_best_lags = {}   
                         dict_best_lags['pearson'] =  state.maximumidxPearson[indice_variavel]                
-                        dict_best_lags['mic'] =  state.maximumidxMic[indice_variavel]           
+                        #dict_best_lags['mic'] =  state.maximumidxMic[indice_variavel]           
                         dict_best_lags['spearman'] =  state.maximumidxSpearman[indice_variavel]           
                         dict_best_lags['kendall'] =  state.maximumidxKendall[indice_variavel]      
 
@@ -212,8 +213,8 @@ def write(state):
                         st.info("**Kendall:** o maior valor de correlação entre o target **{}** e a variável **{}** foi de **{:.2f}** onde o valor do tempo de atraso (best lag) é igual a **{}** minutos."\
                             .format(state.fltTarget, fltRawBestLagCurve, state.maximumKendall[indice_variavel] ,state.maximumidxKendall[indice_variavel]))
                         
-                        st.info("**MIC:** o maior valor de correlação entre o target **{}** e a variável **{}** foi de **{:.2f}** onde o valor do tempo de atraso (best lag) é igual a **{}** minutos."\
-                            .format(state.fltTarget, fltRawBestLagCurve, state.maximumMic[indice_variavel] ,state.maximumidxMic[indice_variavel]))
+                        #st.info("**MIC:** o maior valor de correlação entre o target **{}** e a variável **{}** foi de **{:.2f}** onde o valor do tempo de atraso (best lag) é igual a **{}** minutos."\
+                        #    .format(state.fltTarget, fltRawBestLagCurve, state.maximumMic[indice_variavel] ,state.maximumidxMic[indice_variavel]))
                         
                         #########################################
                         
@@ -227,8 +228,8 @@ def write(state):
                         annotations.plot(state.dicRawBestLagKendall[fltRawBestLagCurve], lw = 1, color='k',label="Kendall") 
                         annotations.scatter(x=state.maximumidxKendall[indice_variavel], y=state.maximumKendall[indice_variavel], color="k")
                         
-                        annotations.plot(state.dicRawBestLagMic[fltRawBestLagCurve], lw = 1, color='g',label="MIC") 
-                        annotations.scatter(x=state.maximumidxMic[indice_variavel], y=state.maximumMic[indice_variavel], color="g")
+                        #annotations.plot(state.dicRawBestLagMic[fltRawBestLagCurve], lw = 1, color='g',label="MIC") 
+                        #annotations.scatter(x=state.maximumidxMic[indice_variavel], y=state.maximumMic[indice_variavel], color="g")
  
                         annotations.set_title('Métodos de Correlação na Janela de Varredura \n {} x {}'.format(state.fltTarget, fltRawBestLagCurve ))
                         annotations.set_ylabel('Scores')
@@ -300,19 +301,19 @@ def write(state):
                                     methods = methods + method + ', '
                                 methods = methods[:-2]
                                 if(counter>0):
-                                    st.markdown("Resultado dos testes de hipótese para o best lag encontrado pelos métodos " + methods + ":")
-                                    st.markdown("Valore passados (" + str(lag) + " minutos) de " + list_columns[1] + " tem um efeito estatisticamente significante nos valores atuais de " + list_columns[0] + ". Passou em " + str(np.round(((counter/4)*100), 2)) + " % dos testes de hipótese.")
+                                    st.markdown("Resultado dos **testes de hipótese** para o **best lag** encontrado pelos métodos **" + methods + "**:")
+                                    st.info("Valores passados (" + str(lag) + " minutos) de " + list_columns[1] + " tem um efeito estatisticamente significante nos valores atuais de " + list_columns[0] + ". Passou em " + str(np.round(((counter/4)*100), 2)) + " % dos testes de hipótese.")
                                 else:
-                                    st.markdown("Resultado dos testes de hipótese para o best lag encontrado pelos métodos " + methods + ":")
-                                    st.markdown("Valore passados (" + str(lag) + " minutos) de " + list_columns[1] + " não tem um efeito estatisticamente significante nos valores atuais de " + list_columns[0] + ". Passou em " + str(np.round(((counter/4)*100), 2)) + " % dos testes de hipótese.")
+                                    st.markdown("Resultado dos **testes de hipótese** para o **best lag** encontrado pelos métodos " + methods + ":")
+                                    st.info("Valores passados (" + str(lag) + " minutos) de " + list_columns[1] + " não tem um efeito estatisticamente significante nos valores atuais de " + list_columns[0] + ". Passou em " + str(np.round(((counter/4)*100), 2)) + " % dos testes de hipótese.")
                    
                             else:                           
                                 if(counter>0):
-                                    st.markdown("Resultado dos testes de hipótese para o best lag encontrado pelo método " + k_v_exchanged[lag][0] + ":")
-                                    st.markdown("Valore passados (" + str(lag) + " minutos) de " + list_columns[1] + " tem um efeito estatisticamente significante nos valores atuais de " + list_columns[0] + ". Passou em " + str(np.round(((counter/4)*100), 2)) + " % dos testes de hipótese.")
+                                    st.markdown("Resultado dos **testes de hipótese** para o **best lag** encontrado pelo método **" + k_v_exchanged[lag][0] + "**:")
+                                    st.info("Valores passados (" + str(lag) + " minutos) de " + list_columns[1] + " tem um efeito estatisticamente significante nos valores atuais de " + list_columns[0] + ". Passou em " + str(np.round(((counter/4)*100), 2)) + " % dos testes de hipótese.")
                                 else:
-                                    st.markdown("Resultado dos testes de hipótese para o best lag encontrado pelo método " + k_v_exchanged[lag][0] + ":")
-                                    st.markdown("Valore passados (" + str(lag) + " minutos) de " + list_columns[1] + " não tem um efeito estatisticamente significante nos valores atuais de " + list_columns[0] + ". Passou em " + str(np.round(((counter/4)*100), 2)) + " % dos testes de hipótese.")
+                                    st.markdown("Resultado dos **testes de hipótese** para o **best lag** encontrado pelo método **" + k_v_exchanged[lag][0] + "**:")
+                                    st.info("Valores passados (" + str(lag) + " minutos) de " + list_columns[1] + " não tem um efeito estatisticamente significante nos valores atuais de " + list_columns[0] + ". Passou em " + str(np.round(((counter/4)*100), 2)) + " % dos testes de hipótese.")
 
                         state.fim_etapa2 = 1
                     
@@ -320,12 +321,12 @@ def write(state):
                 st.markdown('3. Vamos agora **reconstruir o dataset** considerando o atraso de tempo encontrado, de forma que os dados ficarão **sincronizados**, facilitando a sua aplicação para os algoritmos de modelagem.')
                 #st.markdown('Entretanto, o algoritmo de varredura precisa de saber o **tamanho da janela de varredura**. Nesse caso, selecione o tamanho da janela (escala em minutos):')
                 st.markdown('')
-                if st.checkbox("Clique aqui para ver os datasets"):
+                if st.checkbox("Clique aqui para ver os datasets sincronizados"):
                     st.write("Esse é o dataset original")
                     st.dataframe(state.dfRawRange)
                     st.markdown('')
                     
-                    methodLag = ["Pearson", "Spearman", "Kendall", "Mic"]
+                    methodLag = ["Pearson", "Spearman", "Kendall"]#, "Mic"]
                     
                     fltMethodLag = st.selectbox(label='Metódo do lag: ', options=methodLag, key='fltMethodLag')
                     st.write("Esse é o dataset reconstruído. Perceba que há um **deslocamento** no valor do time stamp na primeira linha, devido a consideração do atraso **(best lag)** calculado.")
@@ -374,7 +375,10 @@ def write(state):
                     
                     state.dfRawRangeShifted.dropna(inplace=True)
                     
-                    st.write("**Pronto!** Agora estamos pronto para fazer uma modelagem mais robusta e eficiente. Vamos então para a aba **Data Modeling**")
+                    st.write("**Pronto!** Curtiu? Caso o Pandorabox tenha te ajudado de alguma forma, escreve pra gente e conta como foi ou se tá precisando de mais alguma coisa!")
+                    st.write("Nosso e-mail: **inteligenciaindustrial@ihm.com.br**")
+
+                    #st.write("**Pronto!** Agora estamos pronto para fazer uma modelagem mais robusta e eficiente. Vamos então para a aba **Data Modeling**")
                     
                     
                     '''
