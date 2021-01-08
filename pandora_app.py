@@ -46,8 +46,6 @@ def main():
 
     if result and check:
 
-        lg.createUser(username, c, conn)
-
         st.sidebar.success("Logged In as {}".format(username))
         st.sidebar.title("Navigation")
         selection = st.sidebar.radio("Go to", list(PAGES.keys()))
