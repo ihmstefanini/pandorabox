@@ -4,7 +4,7 @@
 import numpy as np
 import pandas as pd
 from PIL import Image
-image1 = Image.open('IHM Pandora.jpeg')
+image1 = Image.open('images/IHM Pandora.jpeg')
 
 # special imports
 
