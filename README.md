@@ -63,6 +63,11 @@ streamlit run pandora_app.py
 
 - Um exemplo prático
 
+### Credenciais de acesso
+
+- **User Name:** default
+- **Password:** 12345
+
 **Carregando os dados no Pandora**
 
 ![IHM Pandora01-demo01](/images/Pandora-Gif01_a.gif)
