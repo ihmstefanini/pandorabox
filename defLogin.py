@@ -44,16 +44,3 @@ def login(c,conn):
     else:
         result = False
         return result, username, check;
-
-def createUser (username,c,conn):
-    if username == 'ihm':
-        #if st.sidebar.checkbox('Create New user'):
-        expanderCreateUser = st.sidebar.beta_expander("Create New Account", expanded=False) 
-        #st.sidebar.subheader("Create New Account")
-        new_user = expanderCreateUser.text_input("Username", key = "newuser")
-        new_password = expanderCreateUser.text_input("Password",type='password', key = "newpassword")
-
-        if expanderCreateUser.button("Signup"):
-            create_usertable(c, conn)
-            add_userdata(new_user,make_hashes(new_password), c, conn)
-            expanderCreateUser.success("You have successfully created a valid Account")
