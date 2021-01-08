@@ -6,7 +6,7 @@ O Pandora Box possibilita que analista e cientista de dados descubram o potencia
 
 O Pandora faz análises rápidas de viabilidade dos problemas que deseja modelar preditivamente na indústria (predição de qualidade, sensores virtuais, etc).  
 
-![IHM Pandora](/images/IHM%20Pandora01.png)
+![IHM Pandora](/images/IHM%20Pandora02.png)
 
 O Pandora pode ser usado para analisar correlações entre variáveis de processo e qualidade (correlação linear e não linear), fazer teste de hipóteses (verificar causalidade), calcular o tempo de atraso, sincronizar as variáveis no tempo e fornecer informações sobre o potencial preditivo do problema.
 
