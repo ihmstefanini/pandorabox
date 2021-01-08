@@ -26,6 +26,7 @@ Tal análise preliminar, utilizando o Pandora Box, permite que o usuário tenha 
 
 Pandora também disponibiliza para o usuário um dataset sincronizado e pronto para ser explorado de forma mais consistente e sistemática.
 
+
 ### Instalação
 
 1. Clone o projeto e navegue até a pasta project
