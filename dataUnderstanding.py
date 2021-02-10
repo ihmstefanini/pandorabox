@@ -8,7 +8,7 @@ from scipy.stats import linregress
 import statsmodels.api as sm
 
 # special imports
-from minepy import MINE
+#from minepy import MINE
 import ppscore 
 
 # graphics
