@@ -34,9 +34,10 @@ def view_all_users(c, conn):
 def login(c,conn):
     st.sidebar.title('IHM Pandora Box')
     expanderLogin = st.sidebar.beta_expander("Login", expanded=True) 
+    #Fazendo um force os parametros de login para a versao em cloud do sharestreamlit
     username = "default" #expanderLogin.text_input("User Name")
-    password = "12345" #expanderLogin.text_input("Password", type = 'password')
-    check = expanderLogin.checkbox("Login")
+    password = "12345"   #expanderLogin.text_input("Password", type = 'password')
+    check = True         #expanderLogin.checkbox("Login")
     if check:
         hashed_pswd = make_hashes(password)
         result = login_user(username,check_hashes(password,hashed_pswd),c, conn)
