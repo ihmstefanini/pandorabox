@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 # special imports
-from minepy import MINE
+#from minepy import MINE
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from statsmodels.tsa.stattools import grangercausalitytests
@@ -34,7 +34,7 @@ def getBestLags(df, tags, target, shiftFrom, shiftTo, shiftStep):
         vetorMic = {}
         vetorSpearman = {}
         vetorKendall = {}
-        mine = MINE(alpha=0.6, c=15, est="mic_e") 
+        #mine = MINE(alpha=0.6, c=15, est="mic_e") 
                 
         for lag in range(shiftFrom, shiftTo, shiftStep):
             
@@ -45,8 +45,8 @@ def getBestLags(df, tags, target, shiftFrom, shiftTo, shiftStep):
             vetorSpearman[lag] = tempDf.corr(method='spearman').iloc[0][1]                                                  
             vetorKendall[lag] = tempDf.corr(method='kendall').iloc[0][1]
             
-            mine.compute_score(tempDf[tag], tempDf[target]) 
-            vetorMic[lag] = mine.mic()
+            #mine.compute_score(tempDf[tag], tempDf[target]) 
+            #vetorMic[lag] = mine.mic()
 
             progressoAtual += 1
             barProgresso.progress(int(progressoAtual*100/progressoTotal))
@@ -100,13 +100,13 @@ def calcCorr(df, tags, target):
     dfCorrKendall = df[tags].corr(method='kendall')
     kendall = dfCorrKendall[dfCorrKendall.index == target]
     
-    mic = pd.DataFrame()                
-    mine = MINE(alpha=0.6, c=15, est="mic_e") 
+    #mic = pd.DataFrame()                
+    #mine = MINE(alpha=0.6, c=15, est="mic_e") 
     
-    for  tag in tags:
+    #for  tag in tags:
 
-        mine.compute_score(df[tag], df[target]) 
-        mic.loc[0, tag] = mine.mic()        
+    #    mine.compute_score(df[tag], df[target]) 
+    #    mic.loc[0, tag] = mine.mic()        
     
     dfCorr = pd.concat([pearson, spearman, kendall])
     dfCorr.index = ["Pearson", "Spearman", "Kendall"]
