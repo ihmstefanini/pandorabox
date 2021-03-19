@@ -1,4 +1,4 @@
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/pandorabox/streamlitcloudversion/pandora_app.py)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/ihmstefanini/pandorabox/streamlitcloudversion/pandora_app.py)
 
 # Bem vindo ao IHM Pandora Box :wave:
 
