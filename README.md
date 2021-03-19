@@ -1,5 +1,4 @@
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/yourGitHubName/yourRepo/yourApp/)
-
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/ihmstefanini/pandorabox/streamlitcloudversion/pandora_app.py)
 # Bem vindo ao IHM Pandora Box :wave:
 
 **A maneira mais rápida de avaliar o potencial preditivo de um problema de dados na indústria**
