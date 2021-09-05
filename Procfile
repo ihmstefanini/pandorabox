@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run --server.port $PORT pandora_app.py
+web: streamlit run --server.enableCORS false --server.port $PORT pandora_app.py
