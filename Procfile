@@ -1,1 +1,1 @@
-web: streamlit run --server.enableCORS false --server.port $PORT pandora_app.py
+web: streamlit run --server.enableCORS false pandora_app.py
