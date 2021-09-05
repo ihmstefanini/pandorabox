@@ -1,1 +1,1 @@
-web sh setup.sh && streamlit run pandora_app.py
+web: sh setup.sh && streamlit run pandora_app.py
