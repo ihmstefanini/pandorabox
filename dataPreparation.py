@@ -73,7 +73,7 @@ def write(state):
         if not df.empty:
             st.sidebar.title("Data Preparation")
 
-            expanderFltTags = st.sidebar.expander(
+            expanderFltTags = st.sidebar.beta_expander(
                 label='Passo 1: Selecione as variáveis',
                 expanded=False)
 
@@ -91,7 +91,7 @@ def write(state):
 
             dfRaw = df[state.fltTags]
 
-            expanderFltDate = st.sidebar.expander(
+            expanderFltDate = st.sidebar.beta_expander(
                 label='Passo 2: Selecione as datas',
                 expanded=False)
 

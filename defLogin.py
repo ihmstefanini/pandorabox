@@ -42,7 +42,7 @@ def view_all_users(c, conn):
 
 def login(c, conn):
     st.sidebar.title('IHM Pandora Box')
-    expanderLogin = st.sidebar.expander("Login", expanded=True)
+    expanderLogin = st.sidebar.beta_expander("Login", expanded=True)
     username = expanderLogin.text_input("User Name")
     password = expanderLogin.text_input("Password", type='password')
     check = expanderLogin.checkbox("Login")
