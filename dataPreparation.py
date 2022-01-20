@@ -20,8 +20,8 @@ import streamlit as st
 
 
 @st.cache(allow_output_mutation=True)
-def getDataFromCSV(file) -> pd.DataFrame:
-    dataFrame = pd.read_csv(file, sep=",", decimal=".",
+def getDataFromCSV(file, sep, decimal) -> pd.DataFrame:
+    dataFrame = pd.read_csv(file, sep, decimal,
                             encoding="UTF-8",
                             index_col=0,
                             low_memory=False)
@@ -55,6 +55,10 @@ def write(state):
         """
     )
 
+    input_csv_delimiter = st.selectbox("Delimitador", [",", ";", "|"])
+
+    input_csv_decimal = st.selectbox("Decimal", [".", ","])
+
     uploaded_file = st.file_uploader(
         "Carregue aqui o seu arquivo csv",
         type="csv",
@@ -64,7 +68,7 @@ def write(state):
 
         data_load_state = st.text('Carregando os dados...')
 
-        df = getDataFromCSV(uploaded_file).copy()
+        df = getDataFromCSV(uploaded_file, input_csv_delimiter, input_csv_decimal).copy()
 
         data_load_state.text("Pronto! Dados carregados com sucesso!")
         st.markdown(
